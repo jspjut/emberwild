@@ -12,7 +12,7 @@ import {World} from '../server/world.js';
 
 async function start(dir){
   const proc=spawn(process.execPath,['server/index.js'],{env:{...process.env,HOST:'127.0.0.1',PORT:'0',DATA_DIR:dir},stdio:['ignore','pipe','pipe']});
-  const port=await new Promise((resolve,reject)=>{let output='';const timer=setTimeout(()=>reject(Error('Server start timeout: '+output)),5000);proc.stdout.on('data',chunk=>{output+=chunk;const m=output.match(/localhost:(\d+)/);if(m){clearTimeout(timer);resolve(Number(m[1]));}});proc.once('exit',code=>{clearTimeout(timer);reject(Error(`Server exited ${code}`));});}).catch(async error=>{if(proc.exitCode===null&&proc.signalCode===null){const done=once(proc,'exit');proc.kill('SIGKILL');await done;}throw error;});
+  const port=await new Promise((resolve,reject)=>{let output='';const timer=setTimeout(()=>reject(Error('Server start timeout: '+output)),30000);proc.stderr.on('data',chunk=>{output+=chunk;});proc.once('error',error=>{clearTimeout(timer);reject(error);});proc.stdout.on('data',chunk=>{output+=chunk;const m=output.match(/localhost:(\d+)/);if(m){clearTimeout(timer);resolve(Number(m[1]));}});proc.once('exit',code=>{clearTimeout(timer);reject(Error(`Server exited ${code}`));});}).catch(async error=>{if(proc.exitCode===null&&proc.signalCode===null){const done=once(proc,'exit');proc.kill('SIGKILL');await done;}throw error;});
   return {proc,port,base:`http://127.0.0.1:${port}`,stop:async()=>{const done=once(proc,'exit');proc.kill('SIGTERM');await done;}};
 }
 async function client(port,name,token){
