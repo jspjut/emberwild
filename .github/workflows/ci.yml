@@ -1,82 +1,253 @@
-name: Verify Emberwild source and complete art library
-on:
+name: Emberwild quick verification
+'on':
   push:
-  pull_request:
-  workflow_dispatch:
+    branches:
+    - main
+    - master
+  pull_request: {}
+  workflow_dispatch: {}
 permissions:
   contents: read
+concurrency:
+  group: quick-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
-  verify:
+  plan:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 3
+    outputs:
+      run: ${{ steps.plan.outputs.run }}
+      code: ${{ steps.plan.outputs.code }}
+      browser: ${{ steps.plan.outputs.browser }}
+      art: ${{ steps.plan.outputs.art }}
+      container: ${{ steps.plan.outputs.container }}
+      network: ${{ steps.plan.outputs.network }}
+      geometry: ${{ steps.plan.outputs.geometry }}
     steps:
-      - uses: actions/checkout@v6
-        with:
-          path: world
-          persist-credentials: false
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-      - run: node tools/check-source.mjs
-        working-directory: world
-      - id: engine
-        run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
-        working-directory: world
-      - uses: actions/checkout@v6
-        with:
-          repository: ${{ steps.engine.outputs.repository }}
-          ref: ${{ steps.engine.outputs.ref }}
-          path: engine
-          persist-credentials: false
-      - run: npm ci
-        working-directory: engine
-      - run: npx playwright install --with-deps firefox ffmpeg
-        working-directory: engine
-      - run: xvfb-run -a node tools/build-world-assets.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: node tools/check-world.js --world ../world
-        working-directory: engine
-      - run: node tools/test-world.js --world ../world
-        working-directory: engine
-      - run: xvfb-run -a node tools/continent-browser.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: xvfb-run -a node tools/atlas-browser.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: xvfb-run -a node tools/flight-map-browser.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: xvfb-run -a node tools/settlements-browser.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: xvfb-run -a node tools/province-browser.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: xvfb-run -a node tools/creature-motion-browser.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: xvfb-run -a node tools/class-design-browser.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: git diff --exit-code -- shared/prop-profiles.js
-        working-directory: world
-      - run: node tools/check-source.mjs
-        working-directory: world
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - id: plan
+      run: node .github/scripts/ci-plan.mjs
+      env:
+        CI_PROJECT: world
+        CI_MODE: quick
+        GITHUB_TOKEN: ${{ github.token }}
+  fast:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    needs: plan
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        path: world
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - run: node tools/check-source.mjs
+      working-directory: world
+    - id: engine
+      run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+      working-directory: world
+      if: needs.plan.outputs.code == 'true'
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ steps.engine.outputs.repository }}
+        ref: ${{ steps.engine.outputs.ref }}
+        path: engine
+        persist-credentials: false
+      if: needs.plan.outputs.code == 'true'
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: npm
+        cache-dependency-path: engine/package-lock.json
+      if: needs.plan.outputs.code == 'true'
+    - run: npm ci
+      working-directory: engine
+      if: needs.plan.outputs.code == 'true'
+    - run: node tools/check-world.js --world ../world
+      working-directory: engine
+      if: needs.plan.outputs.code == 'true'
+    - run: node tools/test-world.js --world ../world --suite fast --timeout 300
+      working-directory: engine
+      if: needs.plan.outputs.code == 'true'
+      timeout-minutes: 6
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    needs: plan
+    if: needs.plan.outputs.browser == 'true'
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        path: world
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - id: engine
+      run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+      working-directory: world
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ steps.engine.outputs.repository }}
+        ref: ${{ steps.engine.outputs.ref }}
+        path: engine
+        persist-credentials: false
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: npm
+        cache-dependency-path: engine/package-lock.json
+    - run: npm ci
+      working-directory: engine
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{ hashFiles('engine/package-lock.json') }}
+    - run: npx playwright install --with-deps firefox ffmpeg
+      working-directory: engine
+    - run: xvfb-run -a npm run test:live:browser
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+        LIVE_TEST_WORLD: ../world
+      timeout-minutes: 6
+  art:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    needs: plan
+    if: needs.plan.outputs.art == 'true'
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        path: world
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - id: engine
+      run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+      working-directory: world
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ steps.engine.outputs.repository }}
+        ref: ${{ steps.engine.outputs.ref }}
+        path: engine
+        persist-credentials: false
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: npm
+        cache-dependency-path: engine/package-lock.json
+    - run: npm ci
+      working-directory: engine
+    - id: art-key
+      run: echo "key=emberwild-art-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('world/client/**', 'world/shared/**', 'world/server/**', 'world/world.json', 'world/.github/engine.json', 'world/tools/build-assets.js', 'world/tools/preview-assets.js') }}" >> "$GITHUB_OUTPUT"
+    - id: art
+      uses: actions/cache@v4
+      with:
+        path: 'world/client/assets/models
+
+          world/client/assets/previews
+
+          world/client/assets/icons
+
+          world/client/assets/library-manifest.json
+
+          world/client/assets/catalog.html
+
+          world/client/assets/ITEMIZATION_AND_LEVELING.md'
+        key: ${{ steps.art-key.outputs.key }}
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{ hashFiles('engine/package-lock.json') }}
+      if: steps.art.outputs.cache-hit != 'true'
+    - run: npx playwright install --with-deps firefox ffmpeg
+      working-directory: engine
+      if: steps.art.outputs.cache-hit != 'true'
+    - run: xvfb-run -a node tools/build-world-assets.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 20
+      if: steps.art.outputs.cache-hit != 'true'
+    - run: node tools/test-world.js --world ../world --script tests/asset-library.test.js --timeout 300
+      working-directory: engine
+      if: steps.art.outputs.cache-hit == 'true'
+      timeout-minutes: 6
+    - run: git diff --exit-code -- shared/prop-profiles.js
+      working-directory: world
+  network:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    needs: plan
+    if: needs.plan.outputs.network == 'true'
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        path: world
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - id: engine
+      run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+      working-directory: world
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ steps.engine.outputs.repository }}
+        ref: ${{ steps.engine.outputs.ref }}
+        path: engine
+        persist-credentials: false
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: npm
+        cache-dependency-path: engine/package-lock.json
+    - run: npm ci
+      working-directory: engine
+    - run: node tools/test-world.js --world ../world --suite network --timeout 300
+      working-directory: engine
+      timeout-minutes: 6
+  geometry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    needs: plan
+    if: needs.plan.outputs.geometry == 'true'
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        path: world
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - id: engine
+      run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+      working-directory: world
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ steps.engine.outputs.repository }}
+        ref: ${{ steps.engine.outputs.ref }}
+        path: engine
+        persist-credentials: false
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: npm
+        cache-dependency-path: engine/package-lock.json
+    - run: npm ci
+      working-directory: engine
+    - run: node tools/test-world.js --world ../world --suite geometry --timeout 300
+      working-directory: engine
+      timeout-minutes: 6

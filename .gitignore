@@ -23,3 +23,5 @@ dist/
 /client/assets/icons/
 
 /client/assets/*.tar.gz
+
+.site-media/

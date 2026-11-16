@@ -1,0 +1,32 @@
+{
+  "fast": {
+    "excludeFiles": [
+      "asset-library.test.js",
+      "network.test.js",
+      "zone-network.test.js",
+      "correspondence-network.test.js",
+      "buildings.test.js",
+      "continent.test.js",
+      "settlements.test.js"
+    ],
+    "excludeNames": [
+      "complete the whole starter campaign",
+      "northern campaign stages"
+    ],
+    "concurrency": 4
+  },
+  "network": {
+    "includeFiles": [
+      "network.test.js",
+      "zone-network.test.js",
+      "correspondence-network.test.js"
+    ]
+  },
+  "geometry": {
+    "includeFiles": [
+      "buildings.test.js",
+      "continent.test.js",
+      "settlements.test.js"
+    ]
+  }
+}

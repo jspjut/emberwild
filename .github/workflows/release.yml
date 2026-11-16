@@ -1,64 +1,86 @@
 name: Build Emberwild and complete art releases
-on:
-  push:
-    tags: ['v*']
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Existing world version tag to build
-        type: string
-        required: true
 permissions:
   contents: read
+  actions: read
 jobs:
+  verify:
+    uses: ./.github/workflows/full.yml
+    with:
+      ref: ${{ inputs.tag || github.ref }}
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
       RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
     steps:
-      - uses: actions/checkout@v6
-        with:
-          path: world
-          ref: ${{ inputs.tag || github.ref }}
-          persist-credentials: false
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-      - run: node tools/check-source.mjs
-        working-directory: world
-      - id: engine
-        run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
-        working-directory: world
-      - uses: actions/checkout@v6
-        with:
-          repository: ${{ steps.engine.outputs.repository }}
-          ref: ${{ steps.engine.outputs.ref }}
-          path: engine
-          persist-credentials: false
-      - run: npm ci
-        working-directory: engine
-      - run: npx playwright install --with-deps firefox ffmpeg
-        working-directory: engine
-      - run: xvfb-run -a node tools/build-world-assets.js --world ../world
-        working-directory: engine
-        env:
-          HEADED: '1'
-          LIBGL_ALWAYS_SOFTWARE: '1'
-      - run: node -e 'if(process.env.RELEASE_TAG!=="v"+require("./world.json").version)process.exit(1)'
-        working-directory: world
-      - run: node tools/check-world.js --world ../world
-        working-directory: engine
-      - run: node tools/test-world.js --world ../world
-        working-directory: engine
-      - run: node tools/package-release.js --world ../world --assets
-        working-directory: engine
-      - run: sha256sum -c SHA256SUMS
-        working-directory: engine/dist
-      - uses: actions/upload-artifact@v4
-        with:
-          name: release-files
-          path: engine/dist/*
+    - uses: actions/checkout@v6
+      with:
+        path: world
+        ref: ${{ inputs.tag || github.ref }}
+        persist-credentials: false
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - run: node tools/check-source.mjs
+      working-directory: world
+    - id: engine
+      run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+      working-directory: world
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ steps.engine.outputs.repository }}
+        ref: ${{ steps.engine.outputs.ref }}
+        path: engine
+        persist-credentials: false
+    - run: npm ci
+      working-directory: engine
+    - run: npx playwright install --with-deps firefox ffmpeg
+      working-directory: engine
+    - id: art-key
+      run: echo "key=emberwild-art-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('world/client/**', 'world/shared/**', 'world/server/**', 'world/world.json', 'world/.github/engine.json', 'world/tools/build-assets.js', 'world/tools/preview-assets.js') }}" >> "$GITHUB_OUTPUT"
+    - id: art
+      uses: actions/cache@v4
+      with:
+        path: 'world/client/assets/models
+
+          world/client/assets/previews
+
+          world/client/assets/icons
+
+          world/client/assets/library-manifest.json
+
+          world/client/assets/catalog.html
+
+          world/client/assets/ITEMIZATION_AND_LEVELING.md'
+        key: ${{ steps.art-key.outputs.key }}
+    - run: xvfb-run -a node tools/build-world-assets.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 20
+      if: steps.art.outputs.cache-hit != 'true'
+    - run: node tools/test-world.js --world ../world --script tests/asset-library.test.js --timeout 300
+      working-directory: engine
+      if: steps.art.outputs.cache-hit == 'true'
+      timeout-minutes: 6
+    - run: git diff --exit-code -- shared/prop-profiles.js
+      working-directory: world
+    - run: node -e 'if(process.env.RELEASE_TAG!=="v"+require("./world.json").version)process.exit(1)'
+      working-directory: world
+    - run: node tools/check-world.js --world ../world
+      working-directory: engine
+    - run: node tools/test-world.js --world ../world
+      working-directory: engine
+    - run: node tools/package-release.js --world ../world --assets
+      working-directory: engine
+    - run: sha256sum -c SHA256SUMS
+      working-directory: engine/dist
+    - uses: actions/upload-artifact@v4
+      with:
+        name: release-files
+        path: engine/dist/*
+    needs: verify
   draft:
     needs: build
     runs-on: ubuntu-24.04
@@ -70,9 +92,20 @@ jobs:
       GH_REPO: ${{ github.repository }}
       RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-files
-          path: release-files
-      - run: |
-          gh release create "$RELEASE_TAG" --verify-tag --draft --prerelease --title "Emberwild $RELEASE_TAG" --notes-file release-files/RELEASE_NOTES.md release-files/*
+    - uses: actions/download-artifact@v4
+      with:
+        name: release-files
+        path: release-files
+    - run: 'gh release create "$RELEASE_TAG" --verify-tag --draft --prerelease --title "Emberwild $RELEASE_TAG" --notes-file release-files/RELEASE_NOTES.md release-files/*
+
+        '
+'on':
+  push:
+    tags:
+    - v*
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing world version tag to build
+        type: string
+        required: true

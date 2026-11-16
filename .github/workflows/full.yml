@@ -1,0 +1,164 @@
+name: Emberwild full verification
+'on':
+  schedule:
+  - cron: 23 7 * * *
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to verify (blank = current ref)
+        type: string
+        default: ''
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: false
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: full-${{ inputs.ref || github.ref }}
+  cancel-in-progress: true
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    outputs:
+      run: ${{ steps.plan.outputs.run }}
+      code: ${{ steps.plan.outputs.code }}
+      browser: ${{ steps.plan.outputs.browser }}
+      art: ${{ steps.plan.outputs.art }}
+      container: ${{ steps.plan.outputs.container }}
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        ref: ${{ inputs.ref || github.sha }}
+        fetch-depth: 0
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - id: plan
+      run: node .github/scripts/ci-plan.mjs
+      env:
+        CI_PROJECT: world
+        CI_MODE: full
+        GITHUB_TOKEN: ${{ github.token }}
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    needs: plan
+    if: needs.plan.outputs.run == 'true'
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+        ref: ${{ inputs.ref || github.sha }}
+        path: world
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+    - id: engine
+      run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+      working-directory: world
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ steps.engine.outputs.repository }}
+        ref: ${{ steps.engine.outputs.ref }}
+        path: engine
+        persist-credentials: false
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: npm
+        cache-dependency-path: engine/package-lock.json
+    - run: npm ci
+      working-directory: engine
+    - run: node tools/check-source.mjs
+      working-directory: world
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-${{ runner.arch }}-playwright-${{ hashFiles('engine/package-lock.json') }}
+    - run: npx playwright install --with-deps firefox ffmpeg
+      working-directory: engine
+    - id: art-key
+      run: echo "key=emberwild-art-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('world/client/**', 'world/shared/**', 'world/server/**', 'world/world.json', 'world/.github/engine.json', 'world/tools/build-assets.js', 'world/tools/preview-assets.js') }}" >> "$GITHUB_OUTPUT"
+    - id: art
+      uses: actions/cache@v4
+      with:
+        path: 'world/client/assets/models
+
+          world/client/assets/previews
+
+          world/client/assets/icons
+
+          world/client/assets/library-manifest.json
+
+          world/client/assets/catalog.html
+
+          world/client/assets/ITEMIZATION_AND_LEVELING.md'
+        key: ${{ steps.art-key.outputs.key }}
+    - run: xvfb-run -a node tools/build-world-assets.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 20
+      if: steps.art.outputs.cache-hit != 'true'
+    - run: node tools/test-world.js --world ../world --script tests/asset-library.test.js --timeout 300
+      working-directory: engine
+      if: steps.art.outputs.cache-hit == 'true'
+      timeout-minutes: 6
+    - run: git diff --exit-code -- shared/prop-profiles.js
+      working-directory: world
+    - run: node tools/check-world.js --world ../world
+      working-directory: engine
+    - run: node tools/test-world.js --world ../world --timeout 900
+      working-directory: engine
+      timeout-minutes: 17
+    - run: xvfb-run -a node tools/continent-browser.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 6
+    - run: xvfb-run -a node tools/atlas-browser.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 6
+    - run: xvfb-run -a node tools/flight-map-browser.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 6
+    - run: xvfb-run -a node tools/settlements-browser.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 6
+    - run: xvfb-run -a node tools/province-browser.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 6
+    - run: xvfb-run -a node tools/creature-motion-browser.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 6
+    - run: xvfb-run -a node tools/class-design-browser.js --world ../world
+      working-directory: engine
+      env:
+        HEADED: '1'
+        LIBGL_ALWAYS_SOFTWARE: '1'
+      timeout-minutes: 6
+    - run: node tools/check-source.mjs
+      working-directory: world
