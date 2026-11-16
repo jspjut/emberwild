@@ -1,0 +1,131 @@
+EMBERWILD · ZONE OWNERSHIP AND REPLICATION
+5 November 2026
+
+Current contract
+
+The shared simulation now has three ownership regions: Cinderwood, Alderhaven,
+and the Reach–Alderhaven arrival overlap. Every player, NPC and enemy belongs to
+exactly one region at its current position. A transition actor is not copied into
+two simulations. The existing character identity, movement sequence, world clock,
+combat ownership and persistence remain continuous while walking across the road.
+
+Observer                    Subscriptions
+Cinderwood core             Cinderwood + arrival overlap
+Alderhaven core             Alderhaven + arrival overlap
+Arrival, nearer Cinderwood  Cinderwood + arrival overlap
+Arrival, nearer Alderhaven  Alderhaven + arrival overlap
+
+The arrival ownership strip is x=280..450 across the current playable boundary.
+The nearer-side switch is x=365. It spans the playable north/south extent to avoid
+an unbuffered corner where somebody could leave the strip and still see an actor
+on the other side. Physical passage between areas remains the authored gate road;
+the replication strip does not make other zone exits playable.
+
+Actors fade from 60 to 75 metres. Actors excluded by the nearer-core switch are
+at least 85 metres from the switch, so the change of subscription happens after
+they have faded. The common overlap population retains its IDs and client objects
+throughout the crossing. Static terrain, buildings and atlas charts remain visible
+independently of live actor updates. World geometry streaming across independent
+asset packages is not implemented by this change.
+
+Implementation
+
+shared/zone-regions.js defines ownership, primary map and subscriptions.
+server/zone-index.js maintains per-region player, NPC and enemy maps. It also
+selects recipients for spatial world events and exposes population counts.
+World.prepareSnapshots refreshes membership and builds public actor records once
+per outgoing frame. Every connection then receives the actor lists from its own
+subscriptions, together with its private self state. Monsters still get personal
+loot/trust flags only in that observer's packet. Scoped records contain no other
+player's inventory, quests, bank or authentication tokens.
+
+The server's state send loop prepares one frame for all connections. The overlap
+membership is deduplicated by single ownership. Join/leave notices, effects and
+social events use region routing. Effect scopes are captured when the event is
+created, so a subsequent move does not readdress an already queued event. Social
+messages retain their additional local-range check. Unlocated world events without
+explicit scopes are not broadcast by default. Private notices/quest/loot messages
+still go directly to their intended recipient.
+
+Party membership and minimal health/name/level/class status are explicit exceptions
+to world visibility. A remote party member can remain on the party frame without
+sending their world coordinates or creating a character in the local scene.
+Party chat uses actual membership at any distance. General chat uses the player's
+primary zone. Say/yell can cross the arrival handoff within their ordinary ranges,
+rather than encountering an invisible chat boundary at the road midpoint.
+
+The client creates NPC models only from subscribed snapshots and interpolates
+NPC movement alongside remote players. Unsubscribed actors and their labels,
+reactions and interpolation history are removed. Reappearing actors start from a
+fresh authoritative pose. The overlap does not reset movement prediction or its
+acknowledgement epoch. Local player movement remains predicted as before.
+
+Simulation work
+
+Noncombat enemies in regions with no interested players skip their ambient/AI
+work. Dead-enemy timers still use world time. Existing combat targets continue
+being processed to resolve damage/leashing correctly.
+
+City circuits whose entire route is unobserved can sleep. Their route phase is
+advanced analytically, including stop durations, before the first subscribed
+snapshot. A circuit touching a subscribed region keeps running, even when the
+particular actor is currently on the other side of its route. This is needed for
+a gate patrol that will walk into the shared overlap. The active path uses the
+normal movement/collision rules; every authored circuit is checked end to end.
+Greetings, interactions and purchases hold the NPC while somebody addresses it.
+No offscreen fast-forward is applied to an actor already visible to a subscriber.
+
+Infrastructure scope
+
+This is zone ownership, scheduling and replication isolation within ONE server
+process. It is not yet independent zone workers, distributed handoff, sharding,
+multiple databases or a raised capacity limit. The server still shares a 64-player
+cap. Global systems such as party membership and the character store remain global.
+Per-region actor maps, subscriptions and routing provide boundaries for a later
+worker implementation; that will still need explicit state transfer, failure
+recovery and authority fencing before claiming multi-process isolation.
+
+Adding another area
+
+Author its playable bounds and map separately. Add its ownership rule and each
+adjacent overlap to the shared region definitions. The overlap must be wider than
+the live actor fade distance, and must cover every traversable crossing of that
+boundary. Register the new runtime bucket in the zone index. Define observer
+subscriptions as one core plus its adjacent overlaps; avoid subscribing a traveler
+to every neighboring core. Preserve stable actor IDs through ownership changes.
+Extend server scheduling and first-frame materialization before loading new NPC
+circuits. Do not use a client-reported zone ID as authority for visibility.
+
+Check both directions and the ends of each overlap, selected targets, corpses,
+private loot, party status, speech, reconnects and return travel. A geographically
+near actor must not disappear merely because the observer changed subscriptions.
+Test both content arriving late and content leaving interest, including temporary
+network jitter. Revisit visual range and overlap margins together when either grows.
+
+Verification
+
+Tests cover ownership/subscription matrices, unique actor membership, overlap
+continuity, excluded-zone state, event scopes, private party status and local chat.
+The real WebSocket test uses five clients in both cores and both halves of the
+overlap, watches a continuous walk, checks a moving guard, isolates a city effect,
+and verifies region population counts. Browser checks retain the same patrol DOM
+object during crossing, validate interpolated gait and grounding, verify absent
+remote actors, and buy from a traveling merchant at her live position.
+
+Health responses include region population counts; they do not expose character
+IDs or credentials. This is a functional scaling foundation, not a production
+load benchmark. Future load tests should measure payload bytes, frame construction,
+per-region simulation cost, crossing churn and event fan-out with realistic actors.
+
+Release verification (5 November 2026)
+
+227/227 automated tests passed, including four full class campaigns, all city
+circuits, offscreen schedule materialization, door/grade checks, private loot/chat,
+party status and real WebSocket overlap walking. The city-life browser workflow
+passed actor identity continuity, local NPC interpolation/grounding, excluded-zone
+actors, a purchase at the live peddler and the raised city view, with no page or
+shader errors. The open zone atlas follows the primary-zone change while walking.
+
+The shared server was saved and restarted with all eight character profiles and
+two rosters preserved byte-for-byte immediately after restart. Backup:
+data/backups/characters-before-city-life-and-zone-replication-20261105T142916Z.json.

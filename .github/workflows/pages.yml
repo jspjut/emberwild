@@ -1,0 +1,72 @@
+name: Build Emberwild website
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Deploy the verified build to GitHub Pages
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: world
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: node tools/check-source.mjs
+        working-directory: world
+      - id: engine
+        run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+        working-directory: world
+      - uses: actions/checkout@v6
+        with:
+          repository: ${{ steps.engine.outputs.repository }}
+          ref: ${{ steps.engine.outputs.ref }}
+          path: engine
+          persist-credentials: false
+      - run: npm ci
+        working-directory: engine
+      - run: npx playwright install --with-deps firefox ffmpeg
+        working-directory: engine
+      - run: xvfb-run -a node tools/build-world-assets.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: xvfb-run -a node tools/build-site.js --project world --world ../world --output ../world/.site
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: world/.site
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && (vars.ENABLE_PAGES == 'true' || inputs.deploy == true)
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,173 @@
+HISTORICAL LAYOUT NOTES: the slot reservations below were implemented and expanded
+in the continent pass. See CONTINENT.md for current geography and travel.
+
+EMBERWILD · ORGANIC REACH AND ALDERHAVEN
+5 November 2026 · layout revision 3
+
+Playable geography
+
+The northern Hearthstead route retains its authored first-hour landmarks, pool,
+memorials and quest state. The six outer camps no longer occupy matching columns
+and rows. Wayfarer's Watch occupies an eastern shoulder with a separate capital
+approach. Tideglass is northeast above Saltglass Mere. Rootsong sits in a western
+valley; Stonepromise climbs toward its southwest vault. Ashen Hearth lies in a
+southern hollow and Reedwatch follows southeastern pools and a different bank.
+Roads bend through intermediate clearings rather than connecting equivalent grid
+cells. Existing cave/storehouse plans remain enterable and distinct from the camp.
+The one-to-ten campaign, quest IDs and reward budget are unchanged.
+
+The Reach keeps its prior area envelope, approximately 334,080 square metres.
+Alderhaven occupies an approximately 840 by 780 metre city envelope, with its wall
+inside that boundary. That is a capital-scale prototype footprint, not a claim of
+measured equality to any particular commercial game's map. Continuous shared
+coordinates make the eastern road walkable without a scene load or teleport.
+Collision still restricts departure elsewhere; remaining Reach exits stay reserved.
+Player map IDs update on the server when crossing, and saved position/map state,
+chat zone membership, return travel, atlas projection and Find me use that geography.
+The 64-player cap is shared by this server; the city is not a separate 64-player shard.
+
+Alderhaven
+
+Eight wards organize services, a civic skyline, narrower homes and garden paths:
+  Open Gate: western arrival arch, Unlatched Door inn and relief house.
+  Fourwinds Exchange: Common Vault bank, provisioner and market hearth.
+  Concord Heights: large Hall of the Open Hand and the First Speaker.
+  Unfinished Archive: copy desks, shelves and Keeper Ysra Vey.
+  Bellfounders' Close: the House of Bells and its unstruck memorial bell.
+  Lantern Gardens: five open guest pavilions and Lantern House inn.
+  Lowdoor Ward: common house and a neighborhood with its own representative.
+  Willow Quays: rescue hall and the eastern river.
+
+All 45 city buildings have accessible ground floors through shared door collision.
+The Assembly, Archive and foundry have larger silhouettes, higher interiors and
+rooftop towers. Civic portico columns collide. Windows, bands, banners and cutaway
+roofs distinguish large halls from scaled-up starter cottages. Roof towers are
+part of the same cutaway group as their building. Decorative window/roof detail
+is not a separate climbable interior or a promised upper floor.
+
+City landmarks use original geometric art. Interiors currently remain prototype
+rooms and furniture, not finished bespoke multi-floor architecture. City streets
+have ample camera room; no mount, transit, auction house, guild, housing or capital
+quest system is introduced by the city layout.
+
+The NPC principals are First Speaker Aveline Rook, Keeper Ysra Vey, Master Corven
+Bell, Tessa Wren and Maelin of the Open Hand. Their appearances use five distinct
+NPC-only ceremonial sets, individualized hair/builds and highlighted nameplates.
+Dialogue offers authored topic choices; one Speaker topic requires completed
+five_roads. The server checks topic ownership, quest state, range, sight, life and
+request rate. Spoken gestures accompany the private reading/dialogue text. No XP,
+items, reputation, player ability or repeated material reward is granted.
+
+Maraen Ledger opens the existing 28-slot personal bank at the Common Vault.
+Right-click in bags deposits one; right-click in the bank withdraws one; Shift
+transfers a stack. Cursor and tooltip behavior reuse the established bank system.
+Three innkeepers offer explicit voluntary binds: gate, market and garden hearths.
+The eight-second return and fifteen-minute cooldown retain their prior semantics
+and save/offline handling. Merely speaking to an innkeeper does not rebind a player.
+
+Story continuity
+
+The author file game-data/story/alderhaven.json expands civic history and records
+which open threads have advanced. Maelin is Sera's living sister. Tessa's father
+escaped through Anja's low passage; Lowdoor has a continuing ordinary life. Ysra is
+Annet's granddaughter. The correction letter exists, but its contested copies and
+the intent behind batch seven are still unresolved. Optional city conversations
+must not revoke the Reach's successful local conclusion or assign a quest that
+does not exist. The city has no quest population yet.
+
+Atlas and expansion
+
+shared/world-plan.js allocates 35 content slots: 20 leveling zones across levels
+1–100, five capitals (one per playable race) and ten level-100 frontiers with two
+inspirations per race. Inspiration does not impose ownership or racial access.
+Only cinderwood and alderhaven are assigned. Future entries have no fixed name,
+position, playable promise or artificial quest count. Add their regions when their
+story and geography justify them; do not show the slot ledger as an in-game menu.
+
+The known world retains drawn parchment and untouched survey edges. The regional
+chart now opens either the Reach or the city. The city chart sketches streets,
+roof blocks, ward washes, walls and the river. Projection derives the correct map
+from authored mapId or shared coordinates, so a Reach quest does not become a city
+objective merely because the player is in Alderhaven. Other-player markers use
+their own map. The minimap's cached background spans both areas and includes city
+roads, buildings and river. Right-click moves up the atlas only, as before.
+
+For a future zone:
+  Choose one reserved content slot and record its map ID and actual progression.
+  Add an appropriate region/child entry to ATLAS_MAPS, with independent authored
+  parchment placement, survey outline and world bounds.
+  Confirm hit/navigation, ancestor projection and unique slot allocation.
+  Build shared geographic/movement boundaries before saying an exit is open.
+  Revisit the progression budget and story thread registry.
+  Add real path/door/interaction checks and update affected save migration.
+
+Signs and rendering
+
+Road boards now use one extruded arrow polygon. The triangular head shares the
+outline with its rectangular stem, replacing the rotated three-sided cone that
+left gaps. Each board retains its destination association; post hover stays empty.
+Signs point to camps, shelter routes, remaining exits and city services/wards.
+Their post collision remains shared with prediction and authority.
+
+Terrain now keeps a bounded window of 361 tiles around the player, with the same
+fine/coarse surface logic and disposal when moving away. This permits a larger
+world without allocating a mesh for every future region. Road segments are bucketed
+for local terrain/foliage searches. Building visibility extends far enough in the
+city for its skyline; northern fog and existing local camera behavior are retained.
+These changes do not establish production-scale world streaming or server sharding.
+
+Migration and verification
+
+Revision-two positions follow the nearest moved camp or shelter anchor, while the
+northern starter landmarks and town/farm anchors stay fixed. Legacy revision-one
+positions still migrate to the new placements. Invalid outlying legacy coordinates
+are clamped before normal surface validation. Character identity, quest state,
+items, bags, bank, reputation and return cooldowns remain intact. A valid migrated
+save records revision 3 so the transform does not repeat.
+
+npm test includes all class campaigns, real protocol behavior, maps, doors,
+collision, progression, banking, city topics, city hearths and migration.
+npm run test:capital uses a temporary server and five disposable characters. It
+walks over the actual boundary, checks city/regional/Reach atlas views, enters the
+Assembly, checks the Speaker's visible gear and quest-aware response, deposits and
+withdraws at the real city bank, and binds the market hearth. Browser screenshots
+are written under test-results/capital-* and organic-reach-atlas.png. Human travel
+pace and how well the city feels populated still need playtest feedback.
+
+Release validation
+
+The full suite passed 214/214 tests, including all four complete campaigns at
+9,972–10,026 XP / level 10. Subsequent city-furniture path and door checks and the
+final atlas checks also passed. The city browser workflow passed actual boundary
+walking, both atlas charts, the skyline, entered Assembly, visible principal gear,
+quest-aware conversation, the real bank and city hearth. The pool/sign browser
+regression passed individual-board hover with the new connected arrow geometry.
+No page or shader errors were reported by the passing browser workflows.
+
+The detached live server was saved, backed up and restarted on 5 November 2026.
+All eight profiles and two rosters were byte-identical immediately after restart.
+Backup: data/backups/characters-before-organic-reach-and-alderhaven-20261105T134542Z.json.
+
+City life and raised terrain (5 November 2026)
+
+Two wardens now patrol the arrival road and civic approach. Pip and Miri walk from
+Lowdoor to a schoolhouse and back, with lesson/home stops on a short game-time
+circuit rather than a real-day timetable. Bessa Basket walks a market circuit,
+stops at bends and offers the normal provision stock. Gestures and conversations
+pause these actors; a merchant transaction checks her current authoritative
+position, not her authored spawn. The minimap/atlas service marker follows a
+subscribed traveling merchant. NPC gait and body/name anchors interpolate locally.
+
+The city now has a high civic plateau, an archive rise, garden banks and lower
+quays. Buildings retain level floor pads at their local elevation; streets and
+approaches use smooth grades. The market hearth footprint and one pavilion were
+adjusted to remove pre-existing building overlaps exposed by the different floor
+heights. Schoolhouse is a renamed existing home, not another quest hub.
+
+The arrival road bends through a wider approach. Road width, ground palette and
+fog blend gradually, with trees, a cart and a wayside light tying the two areas
+together. The redundant border portal posts/lamp were removed; the actual city
+arch is the entrance. The ownership handoff occurs within this approach and is
+separate from the physical gate. See ZONE_REPLICATION.txt for the live update and
+simulation boundaries. Older characters settle onto the new ground while keeping
+identity, inventory, quest progress and bank data; no character wipe is needed.

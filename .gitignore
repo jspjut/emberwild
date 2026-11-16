@@ -1,0 +1,25 @@
+node_modules/
+data/
+test-results/
+.runtime/
+*.log
+.env
+legacy-package.json
+
+# Rebuildable art exports belong in release artifacts, not source history.
+/client/assets/models/
+/client/assets/previews/
+/client/assets/*.zip
+/client/assets/library-manifest.json
+/client/assets/catalog.html
+/client/assets/ITEMIZATION_AND_LEVELING.md
+.site/
+dist/
+.tools/
+
+.env.*
+!.env.example
+
+/client/assets/icons/
+
+/client/assets/*.tar.gz

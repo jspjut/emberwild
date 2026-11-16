@@ -1,0 +1,82 @@
+name: Verify Emberwild source and complete art library
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: world
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: node tools/check-source.mjs
+        working-directory: world
+      - id: engine
+        run: node tools/engine-config.mjs >> "$GITHUB_OUTPUT"
+        working-directory: world
+      - uses: actions/checkout@v6
+        with:
+          repository: ${{ steps.engine.outputs.repository }}
+          ref: ${{ steps.engine.outputs.ref }}
+          path: engine
+          persist-credentials: false
+      - run: npm ci
+        working-directory: engine
+      - run: npx playwright install --with-deps firefox ffmpeg
+        working-directory: engine
+      - run: xvfb-run -a node tools/build-world-assets.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: node tools/check-world.js --world ../world
+        working-directory: engine
+      - run: node tools/test-world.js --world ../world
+        working-directory: engine
+      - run: xvfb-run -a node tools/continent-browser.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: xvfb-run -a node tools/atlas-browser.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: xvfb-run -a node tools/flight-map-browser.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: xvfb-run -a node tools/settlements-browser.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: xvfb-run -a node tools/province-browser.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: xvfb-run -a node tools/creature-motion-browser.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: xvfb-run -a node tools/class-design-browser.js --world ../world
+        working-directory: engine
+        env:
+          HEADED: '1'
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - run: git diff --exit-code -- shared/prop-profiles.js
+        working-directory: world
+      - run: node tools/check-source.mjs
+        working-directory: world

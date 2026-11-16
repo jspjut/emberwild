@@ -1,0 +1,135 @@
+CHAT, FRIENDS AND POST
+
+Commands
+/s or /say text: local speech, 35 paces.
+/y or /yell text: local speech, 120 paces.
+/1, /z, /zone or /general text: the player's current primary zone.
+/w or /whisper Character Name message: private speech anywhere in the world,
+  to online characters only. Names are matched case-insensitively against the
+  longest existing full character name; spaces are supported without brackets.
+  A matching offline full name never falls through to an online shorter name.
+/tell is another whisper alias. Use a whisper's Reply button to open that conversation.
+/p or /party text: only current party members, across zones.
+/g or /guild: reserved for future guild support.
+/friend or /addfriend Character Name: save a character, including offline ones.
+/unfriend or /removefriend Character Name: remove a saved friend.
+/friends: open the friends window. The bottom menu also opens this window.
+
+Normal channel commands select the channel for subsequent plain messages.
+Whispers leave that selection alone, so the next plain message is predictable.
+Local speech still drives the existing authored NPC replies and speech bubbles.
+Whispers use explicit server-selected recipient IDs, independently of zone
+replication; a client cannot supply a recipient list. One-second chat pacing
+applies to whispers as it does to public chat.
+
+Friends
+The list belongs to each character and shows online status and current zone.
+It contains no remote coordinates or private inventory. It is a one-way list;
+adding a friend does not automatically add the sender to the other list.
+Right-click a targeted player's portrait for Whisper, Add/Remove friend, and
+Invite to party. Existing party leader, size and invitation rules still apply.
+Deleting a character removes it from saved friend lists.
+
+Post locations and interaction
+Mailboxes stand outside the Crossroads Hearth in Willowcross and beside each
+of Alderhaven's three inn return points: the Gate of Welcome, Fourwinds and
+Lantern Gardens. They appear on minimap/atlas tracking under Mailboxes and
+have their own hover hint and interactive cursor. Click or approach and press F.
+The original small expedition camp has no post; every established town and
+capital return point has one. Add future town boxes in shared/mail.js.
+
+Letters have a recipient's full character name, subject and up to 2,000 body
+characters (oversized letters must be split to fit the existing message limit). Six item stacks can be attached using the selector or right-clicking
+bag items while composing. Equipped copies, equipped bags, quest items and
+NPC-only appearances cannot be attached. Normal stack limits apply (99; gear
+and bags are individual copies). Sending removes items; recipient login is not
+required. There is no postage charge, gold attachment, cash-on-delivery or
+expiration in this prototype. Delivery is immediate. Inbox limit: 100 letters;
+friend limit: 100. An unread badge appears on the Friends menu button.
+
+Recipients read/claim at any town mailbox, within 4.8 paces, alive and with line
+of sight. Leaving closes access. Claims take all attachments only if they fit;
+otherwise the complete parcel remains in escrow. Read-only letters can be
+deleted after a second confirmation click. Letters with attachments cannot be
+deleted until collected. Drafts last for the current character session.
+
+Persistence and consistency
+CharacterStore's version-2 JSON gains a top-level correspondence map keyed by
+stable character ID. It holds friend IDs, letters and the latest 100 successful
+send request IDs. It is deliberately separate from character profiles so normal
+movement/progression autosaves cannot overwrite an offline inbox.
+
+A transfer changes both the character inventory snapshot and mail escrow in one
+serialized temporary-file/rename commit. The live inventory is published in the
+same transaction's commit callback, before another queued save may run. A brief
+storageBusy guard prevents concurrent character inventory operations/cast
+completion during the write. Failure leaves both inventory and escrow intact.
+Autosaves capture live/pending profiles when their transaction acquires the
+store queue, rather than before waiting behind a mail commit. Logout waits for
+its incoming command chain before detaching. Duplicate send request IDs and
+repeated claims cannot duplicate items. Character entry/deletion uses the same
+store queue. Existing characters and roster tokens are retained.
+
+Mail is not included in public zone frames. Only the owner's unread count and
+friends summary are in their private self frame. Inbox content travels in private
+mailbox events while access is valid. No account credentials or roster keys are
+included in letters or friend entries. This remains the existing prototype's
+client identity system; no account security redesign is implied.
+
+Validation
+npm test: full gameplay regression and focused unit/network tests.
+node --test tests/correspondence.test.js tests/correspondence-network.test.js:
+offline persistence, cross-zone whisper privacy, spaced-name ambiguity, item
+validation, duplicate delivery/claim rejection, full bags/inbox, write failure,
+friend status and mailbox access.
+npm run test:correspondence: isolated temporary server, actual target portrait
+menu, slash friends/whisper, nearby mailbox F interaction, right-click attachment,
+offline recipient login/read/claim/delete and reconnect persistence. Uses test
+profiles only. Browser artifacts are in test-results/post-*.png.
+
+Verified implementation: 235 automated tests passed, plus the isolated browser
+flow including oversized-letter rejection without disconnect, LAN-compatible
+random request IDs, attachment cursor/tooltips, offline parcels and reconnects.
+Deployment backed up eight profiles/two rosters; no character reset was needed.
+
+CHAT WINDOW AND WHISPER CONVERSATIONS
+The expanded chat panel has All, Whispers and individual character tabs.
+Incoming whispers open a background tab with an unread count and never change
+what the player is typing. Each tab keeps its own draft during the session.
+Closing a tab retains its messages and draft in recent conversations; logging
+out clears all chat history, tabs and drafts before another character enters.
+History is capped at 500 messages and 50 recent conversation records.
+
+New whisper offers the selected player, online friends, recent conversations
+and players in the current replicated area. The name field can open a tab for
+any full character name, including a player in another zone. The server checks
+online availability when sending. Friends and target-portrait Whisper actions
+use the same tab interface. The private composer clearly names its recipient;
+normal typed text goes only to that person. Explicit public slash commands
+switch back to All. /w and /whisper remain available in every tab.
+
+The picker uses an explicit whisperTo field so an unknown full name cannot
+accidentally match a different player's shorter name. The server resolves that
+field exactly, independently of the slash command's longest-name parsing.
+Rejected offline/rate-limited messages show in the relevant conversation and
+restore their text as a draft if it would not overwrite newer typing.
+
+Drag the upper-right chat handle to change width/height, or focus it and use
+arrow keys. Dimensions are saved in this browser and clamped to the viewport.
+Messages wrap at a larger text size; incoming messages preserve scroll position
+while reading older text. Newer messages returns to the bottom. Tab arrow keys
+navigate conversations, and close buttons have explicit accessible labels.
+
+/friend Name and /addfriend Name add online or offline characters. /friend or
+/addfriend without a name opens and focuses the Add friend field. /friend,
+/friends and /whisper appear in slash autocomplete alongside learned emotes.
+
+npm run test:chat-panel runs isolated browser coverage for tabs, private routing,
+unread counts, per-tab drafts, manual/friend selection, /friend forms and
+completion, scrolling, resizing, closed-history recovery, viewport clamping and
+logout privacy. tests/chat-history.test.js covers filtering, bounds, drafts,
+read-state handling and exact recipient matching without WebGL.
+
+Chat window verification: full suite 240/240 passed; the isolated chat-panel
+browser flow and existing correspondence browser flow both passed. Existing
+eight characters and two rosters were preserved and backed up before restart.

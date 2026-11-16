@@ -1,0 +1,689 @@
+{
+  "id": "cinderwood-open-hand",
+  "revision": 1,
+  "title": "The Road That Forgot Its Guests",
+  "scope": "Author background for the Cinderwood Reach, levels 1–10. This file is not imported by the game client or exposed by the static server. Public fragments live in shared/readables.js and quest scenes in shared/story-content.js.",
+  "premise": "A woodland refuge is being strangled by the very shelters built to keep travelers safe. A newcomer learns that welcome, memory, and restraint are practical skills, then helps six communities dismantle an old emergency instruction without destroying the common road that depends on it.",
+  "player_promise": "Begin as a stranger offered a seat. End as a neighbor whose testimony changes how the Reach treats the next stranger. Solve the local disaster; earn the right to ask a harder question in Alderhaven.",
+  "themes": [
+    "Care without consent becomes confinement. Safety must leave room for departure.",
+    "A record preserves a voice imperfectly. Written, living, sung, carved, and remembered accounts need each other.",
+    "Ordinary maintenance is consequential heroism: food, a return address, an accurate name, and a gate that opens.",
+    "Cooperation does not erase disagreement. No people has the single correct tradition or a collective moral defect.",
+    "Listening is an action. Gestures establish the same attention the player later brings to evidence."
+  ],
+  "tone": "Warm hospitality against a disturbing, understandable failure. Wonder and unease, small jokes, named absences, practical work. No secret chosen bloodline, race-wide villainy, cosmic apocalypse, or compulsory grief monologue in the tutorial.",
+  "author_truth": [
+    "The Open Hand Compact joined five peoples to maintain refuge routes after the Long Ember Winter. It was a negotiated civic work, not a lost utopia. Local inhabitants and wetland water rights were imperfectly represented.",
+    "The witnesswork is a distributed craft: kiln-fired instructions, resonant stone timing, living root memory, water channels that carry heat and vibration, and human-maintained guest lists. Lanterns mark local handoffs. It can retain patterns of action and fragments of voices; it is not a universal sentient god or a machine that understands every word.",
+    "Forty-one years before the player arrives, a storage fire during a late evacuation caused the Night of Closed Doors. Deputy roadkeeper Annet Vey authorized a temporary Holdfast instruction: retain every registered guest until all were accounted for. Some keepers used it to save people; other doors shut on those still outside. The missing were never reconciled. The order therefore never expired.",
+    "Senior workers isolated the northern sanctuary afterward. For decades the other shelters functioned in reduced, locally maintained modes. Records of the emergency were divided among institutions, both to preserve evidence and to spare survivors. The result also made responsibility hard to trace.",
+    "Eighteen days before arrival, routine replacement witness tiles from Alderhaven were fitted to the southern stations. A copied Holdfast clause survived in the batch. The new tiles synchronized previously isolated faults. Annet died nineteen years ago; she is not a present mastermind. Whether the capital batch was negligence, deliberate institutional concealment, or interference is reserved for later development. Do not resolve that question in this zone.",
+    "The sanctuary failed first at its oldest fracture. Roots turned inward, wildlife lost feeding and nesting ground, sentinels confused living travelers with missing entries, and the Hollow Warden began drawing light from the surrounding grove. The quiet pool remained healthy because its spring and bank have no witnesswork connection.",
+    "Defeating the Hollow Warden ends the immediate northern draw. It does not magically repair every station. Southern creatures have different causes: misbound sentries, tangled root defenses, vibrating shardbacks, nesting crabs attracted by warming stone, echo-driven kiln workers, and a water keeper obeying the wrong reserve instruction.",
+    "The six field reports let present-day keepers safely isolate their local Holdfast links and retain ordinary shelter and water services. At the concluding meeting Tamsin records a local release amendment: a guest may leave, an absence is not a crime, and a name is not a debt. This closes this Reach incident, not the whole continental system.",
+    "Reedwatch is a mixed survey community, not a sixth playable race. Its evidence exposes the cost of treating a marsh as empty infrastructure. Brinefolk and human residents disagree internally about water use; no bloodline determines a position.",
+    "Hearthward Return uses a deliberately maintained, personal hearth bond distinct from the broken guest-accounting relay. Setting it is voluntary. Repairing the relay never moves a player’s bound hearth or changes the actual cooldown."
+  ],
+  "chronology": [
+    {
+      "when": "92 years ago",
+      "event": "The Long Ember Winter displaces families along the future Reach roads. Small mutual-aid shelters precede the Compact."
+    },
+    {
+      "when": "87 years ago",
+      "event": "Five delegations ratify the Open Hand Compact. The founding charter explicitly permits departure. Its water annex remains provisional."
+    },
+    {
+      "when": "41 years ago",
+      "event": "The Night of Closed Doors. Annet issues the temporary Holdfast instruction during evacuation. Couriers use a bypass page to open some doors. Three northern caretakers die helping people outside the gate."
+    },
+    {
+      "when": "40 years ago",
+      "event": "Northern sanctuary isolated. Public commemorations name the dead but omit most operating instructions. A relief ledger and a dissenting annotation travel to different archives."
+    },
+    {
+      "when": "19 years ago",
+      "event": "Annet dies. Her public plaque credits the evacuation; a family letter disputes the meaning of her final order."
+    },
+    {
+      "when": "18 days ago",
+      "event": "Alderhaven replacement tiles reach southern stations with the copied emergency clause. Joss signs for sealed goods; local installers follow valid paperwork."
+    },
+    {
+      "when": "9 days ago",
+      "event": "Lanterns begin flickering. Courier Renn Tal records that this precedes the moving roots. She drops her journal while escaping, reaches Willowcross, and takes medical passage onward. Her later destination is unknown."
+    },
+    {
+      "when": "4 days ago",
+      "event": "Hollow Warden withdraws its light. Hearthstead loses supplies and seedbeds to displaced creatures. Briar understates the damage out of shame."
+    },
+    {
+      "when": "Player chapter",
+      "event": "Northern investigation, Warden encounter, Willowcross introductions, six site reports, food report, release amendment and a voluntary letter to Alderhaven."
+    }
+  ],
+  "cast": [
+    {
+      "id": "elowen",
+      "want": "Keep Hearthstead alive without losing another caretaker.",
+      "flaw": "Offers reassuring certainty before she has enough evidence.",
+      "turn": "Admits the isolated sanctuary was never truly repaired; asks for names as well as a victory.",
+      "voice": "Brief, practical, admits a mistake plainly.",
+      "relationship": "Once trained beside Ilan’s aunt Anja Wren."
+    },
+    {
+      "id": "sera",
+      "want": "A place where nobody must earn basic care.",
+      "flaw": "Carries other people’s exhaustion until she neglects her own.",
+      "turn": "Teaches a gesture from evacuation work; the player later understands why an open hand matters.",
+      "voice": "Warm without baby talk; bodily details: breath, cold hands, clean water."
+    },
+    {
+      "id": "tavi",
+      "want": "Keep a small supply route dependable.",
+      "flaw": "Treats ledgers as safer than recollection.",
+      "turn": "Recognizes that a full crate count can hide an uncounted traveler.",
+      "voice": "Dry humor, concrete quantities, gratitude expressed as useful gear."
+    },
+    {
+      "id": "rowan",
+      "want": "Understand what the woods are actually doing.",
+      "flaw": "Mistakes his refusal to leave a trail for responsibility.",
+      "turn": "The pool gives him a control case: the whole forest is not cursed.",
+      "voice": "Observes first, interprets cautiously; likes frog reports."
+    },
+    {
+      "id": "briar",
+      "want": "Save a grove she believes she personally failed.",
+      "flaw": "Conceals bad news to appear competent.",
+      "turn": "Shares clean amber and admits the root defenses are frightened, not wicked.",
+      "voice": "Specific plant observations; a guarded beginning becomes direct collaboration."
+    },
+    {
+      "id": "lysa",
+      "want": "Make listening a shared practice rather than her people’s private expertise.",
+      "flaw": "Can make patience sound like a test of worth.",
+      "turn": "Explains the peace gesture as an offer creatures may accept, never control.",
+      "voice": "Invitations, room for refusal, small concrete exercises."
+    },
+    {
+      "id": "scout",
+      "want": "Bring Anja’s name home without abandoning a dangerous gate.",
+      "flaw": "Believes a dead guard’s duty was to remain forever.",
+      "turn": "Learns Anja died opening an escape, not defending a closed gate.",
+      "voice": "Short watch reports; one personal sentence carries the emotional change."
+    },
+    {
+      "id": "orin",
+      "want": "Teach controlled force and useful self-preservation.",
+      "flaw": "Old heroic language sometimes hides the work that follows a battle.",
+      "turn": "Calls salvaged equipment tools for repair rather than relics of destiny.",
+      "voice": "Plain instruction with occasional old forge idiom; adapts to all four classes."
+    },
+    {
+      "id": "quartermaster",
+      "want": "Restore six roads without making Willowcross another place that issues unquestioned orders.",
+      "flaw": "Initially treats reports as interchangeable boxes to tick.",
+      "turn": "Needs six incompatible forms of testimony, changes the charter, names the people who must maintain it.",
+      "voice": "Organizes clearly; asks whose account is missing."
+    },
+    {
+      "id": "town-healer",
+      "want": "A hearth travelers freely choose to return to.",
+      "flaw": "Can overlook that a newcomer has no reason yet to trust an offer.",
+      "turn": "Explicitly distinguishes a voluntary return bond from a gate that will not let you leave.",
+      "voice": "Consent before service; matter-of-fact hospitality."
+    },
+    {
+      "id": "town-merchant",
+      "want": "Supply stations with dependable materials.",
+      "flaw": "Trusts a valid delivery seal too far.",
+      "turn": "Keeps the faulty tile invoice and names his own signature; refuses scapegoating the driver.",
+      "voice": "Trade specifics, accountability without melodrama."
+    },
+    {
+      "id": "mara",
+      "want": "Reopen a storehouse without surrendering its guest ledger.",
+      "flaw": "Promises the sentries are only misreading people before seeing the retained order.",
+      "turn": "Restores departure marks as equal in importance to arrival marks.",
+      "voice": "Names, routes, practical social obligations."
+    },
+    {
+      "id": "nemi",
+      "want": "Keep rescue accounting honest.",
+      "flaw": "Hears a missing name as a personal failure.",
+      "turn": "Accepts testimony from a survivor who left by choice; ends a rescue tally without declaring that person dead.",
+      "voice": "Precise distinctions: missing, departed, returned, unknown."
+    },
+    {
+      "id": "liri",
+      "want": "Preserve a memory seed without making a person relive it.",
+      "flaw": "Initially confuses faithful repetition with faithful remembering.",
+      "turn": "Allows the matron’s old defense pattern to end.",
+      "voice": "Sensory fragments, identifies uncertainty rather than speaking for all trees."
+    },
+    {
+      "id": "dorr",
+      "want": "Keep an old promise whose physical timing has gone wrong.",
+      "flaw": "Equates changing a carved record with falsifying it.",
+      "turn": "Adds a dated correction beside the original, leaving both legible.",
+      "voice": "Materials, measurements, the distinction between erasure and amendment."
+    },
+    {
+      "id": "ves",
+      "want": "Stop workers who keep repeating the last evacuation shift.",
+      "flaw": "Calls every survival a successful rescue to protect a family story.",
+      "turn": "Reads Iri’s grandmother’s unfinished token aloud and admits some doors failed.",
+      "voice": "Maker’s language; never treats fire as evidence of racial volatility."
+    },
+    {
+      "id": "pella",
+      "want": "Protect the reserve and the people living downstream.",
+      "flaw": "Uses survey categories that exclude uncharted residents.",
+      "turn": "Records a missing witness instead of inventing consent for them.",
+      "voice": "Water levels, seasonal consequences, willingness to redraw a boundary."
+    },
+    {
+      "id": "southfield",
+      "want": "Have an orchard still worth tending next year.",
+      "flaw": "Resents being asked for another report while others get heroics.",
+      "turn": "Her healthy harvest proves the valley can sustain the repaired road.",
+      "voice": "Dry impatience, pride in patient work."
+    }
+  ],
+  "supporting_cast": {
+    "mentor-dawnwarden": "Alda Brightshield: protection includes holding an escape open; disagrees with Orin’s old language of glorious last stands.",
+    "mentor-arcanist": "Sethra Quill: copies the faulty clause exactly before proposing a correction; curious, susceptible to elegant explanations.",
+    "mentor-pathfinder": "Fen Trackwise: routes are choices made with living ground; practical skeptic of central maps.",
+    "mentor-stormcaller": "Oru Rainbell: hears relay timing in water and metal; insists listening is measurement, not prophecy.",
+    "companion-human": "Edda Wayfarer: transcribes departures and corrects Mara’s memory of who returned.",
+    "companion-brinefolk": "Tollin Shoretie: practices knots for rescue and for voluntary release, two different signs.",
+    "companion-sylvren": "Mira Leaflisten: asks whether keeping an echo against its owner’s wishes is preservation.",
+    "companion-cairnkin": "Bren Oathstone: apprentices on the dated amendment, keeps the original fragment visible.",
+    "companion-emberkin": "Iri Ashkindle: owns the family token that complicates Ves’s heroic account.",
+    "companion-reedwatch": "Hollis Reed: maps water paths missing from the town’s authorized survey.",
+    "town-neighbor-0": "Rilla Hearthsong: knows a verse about an unbuilt bridge.",
+    "town-neighbor-1": "Moss Tidebell: remembers an island omitted from replacement charts.",
+    "town-neighbor-2": "Teren Cross: looking for the person who stopped an old clock at dawn."
+  },
+  "acts": [
+    {
+      "id": "welcome",
+      "quests": [
+        "welcome",
+        "meadow",
+        "herbs",
+        "seeds",
+        "supplies",
+        "survey",
+        "social_greeting"
+      ],
+      "question": "Can this place become home to a stranger?",
+      "discovery": "Displaced creatures and missing supplies are symptoms. A peaceful gesture is learned as a useful skill before a historical symbol.",
+      "payoff": "A seat, a small bag, a usable calming gesture.",
+      "delivery": "Warm quest dialogue, disturbed seedbeds, a small camp account book. No history lecture at level 1."
+    },
+    {
+      "id": "listening",
+      "quests": [
+        "west_report",
+        "tracks",
+        "creek",
+        "ledger",
+        "east_intro",
+        "thicket",
+        "sap",
+        "seedhearts",
+        "social_road",
+        "social_listen",
+        "social_peace"
+      ],
+      "question": "Is the whole forest sick, or is something making it defend itself?",
+      "discovery": "Healthy frogs outside the relay, lights failing before roots moved, clean amber, a prowler accepting peace.",
+      "payoff": "A cause can be investigated; creatures need not be uniformly hostile. Courier evidence names the first distorted instruction: KEEP ALL GUESTS.",
+      "delivery": "Observed ecological contrast plus Renn’s dropped journal. A player can read it after recovery or at Rowan’s copy stand."
+    },
+    {
+      "id": "northern_release",
+      "quests": [
+        "missing_scout",
+        "beacons",
+        "memory",
+        "shards",
+        "heart",
+        "farewell"
+      ],
+      "question": "What did the sanctuary’s watch become?",
+      "discovery": "Three caretakers died making an exit; their memorial was reduced to an endless watch. The Hollow Warden repeats a protective action after its meaning is lost.",
+      "payoff": "The northern draw stops; Ilan can name his aunt’s choice; Hearthstead has light and a safe immediate future.",
+      "delivery": "Rekindle paths, copy names, defeat dangerous constructs, bring the result home. Killing the Warden is intervention, not condemnation of the grove."
+    },
+    {
+      "id": "common_road",
+      "quests": [
+        "town_arrival",
+        "town_inn",
+        "town_market",
+        "town_roads",
+        "town_farmland",
+        "town_harvest",
+        "town_seedroad"
+      ],
+      "question": "Why are distant shelters showing the same fault?",
+      "discovery": "A replacement shipment joined isolated faults. Personal hearth bonds are separate. Food and water matter as much as gates.",
+      "payoff": "Town services and a credible base of operations; an invoice to compare with field evidence.",
+      "delivery": "Three staged introductions and an optional farm branch that is required for the concluding charter, not for starting the six camp chains."
+    },
+    {
+      "id": "six_witnesses",
+      "quests": "Six existing intro → keepsakes → trouble → shelter → boss → return chains, in current order: human, Brinefolk, Sylvren, Cairnkin, Emberkin, Reedwatch.",
+      "question": "Can protection be repaired without erasing the people who relied on it?",
+      "discovery": "Each site yields a different needed correction; no single race owns the answer.",
+      "payoff": "Each delegation gets a local resolved problem and changes its own practice. Six reports identify the common clause and a safe local release.",
+      "delivery": "Unique motives, material clues, a meaningful entrance observation, a dangerous encounter, and a changed conclusion for each camp."
+    },
+    {
+      "id": "open_hand",
+      "quests": [
+        "five_roads"
+      ],
+      "question": "Who has the authority to let a guest leave?",
+      "discovery": "A surviving charter clause already allows departure. Current residents must accept responsibility for applying it and include the water reserve.",
+      "payoff": "Six local links isolated, roads usable, stores and harvest accounted for, a signed release amendment, a community that remembers what the player did.",
+      "delivery": "Tamsin’s quest hand-in and changed post-completion gossip; an optional public addendum appears at her reading stand. A sealed invoice remains a forward invitation, not an unresolved local cliffhanger."
+    }
+  ],
+  "site_stories": [
+    {
+      "hub": "human",
+      "object": "Name ledger with departures crossed out by a new instruction.",
+      "threat": "Sentries and Lockwarden detain anyone absent from the guest list.",
+      "entrance_observation": "Both arrival and departure columns are physically present.",
+      "local_resolution": "Mara restores lawful departures and disconnects the retaining order.",
+      "report": "Guest lists cannot be warrants.",
+      "future": "The invoice seal belongs to an Alderhaven records office."
+    },
+    {
+      "hub": "brinefolk",
+      "object": "Rescue token belonging to a passenger who voluntarily disembarked.",
+      "threat": "Glassclaws nest in warmed relay stone; Broodclaw blocks the channel. They are animals, not saboteurs.",
+      "entrance_observation": "Warm stone and dry rescue knots above the waterline; not a newly invented ocean inside the existing grotto.",
+      "local_resolution": "Clear the dangerous nest so Nemi can cool and isolate the relay stone, leaving the wider habitat.",
+      "report": "Departure is not disappearance.",
+      "future": "A chart points toward an island absent from current official copies."
+    },
+    {
+      "hub": "sylvren",
+      "object": "Seed memory repeating a child asking to leave.",
+      "threat": "Root defenses repeat an evacuation without recognizing an exit; the Matron is a constructed living defense, not a corrupted racial leader.",
+      "entrance_observation": "A repeated memory cuts off at the same word. The book is a transcription, not proof that all trees speak.",
+      "local_resolution": "Liri frees the held pattern instead of endlessly replaying it.",
+      "report": "A memory is not permission to repeat an injury.",
+      "future": "Someone requested a separate seed before the replacement shipment."
+    },
+    {
+      "hub": "cairnkin",
+      "object": "Promise stone missing the timing interval after UNTIL.",
+      "threat": "Wrong resonance drives shardbacks and the vault mechanism.",
+      "entrance_observation": "A clean break interrupts an instruction, not an ancient curse.",
+      "local_resolution": "Dorr dates a correction beside the fracture and isolates the wrong beat.",
+      "report": "An emergency must have an end condition.",
+      "future": "The original interval was calibrated at a highland bell foundry."
+    },
+    {
+      "hub": "emberkin",
+      "object": "Family token from a kilnworker ordered to keep the last shift running.",
+      "threat": "Unquiet workers and Last Kilnkeeper repeat a heat-and-door routine. They are witnesswork constructs carrying gestures, not undead laborers to kill for being dead.",
+      "entrance_observation": "Shift marks exceed the surviving names; some work went uncredited.",
+      "local_resolution": "Ves ends the routine and keeps the uncomfortable unfinished token.",
+      "report": "Keep the testimony; end the task.",
+      "future": "The Night’s fuel invoice lists a destination that never received its shipment."
+    },
+    {
+      "hub": "reedwatch",
+      "object": "Survey knot recording downstream flow below the approved minimum.",
+      "threat": "A reserve keeper hoards water to satisfy guest accounting; stalkers lose ordinary feeding routes.",
+      "entrance_observation": "The order has a reserve line but no downstream witness field.",
+      "local_resolution": "Pella isolates the retention order and establishes a local monitored release, rather than draining the marsh.",
+      "report": "The road cannot count only the people standing on it.",
+      "future": "An unnamed marsh household predates both the Compact and capital survey."
+    }
+  ],
+  "ecology_and_combat": {
+    "nibbler": "Hungry because root movement displaced feeding patches. Defense of food stores is bounded; quest language does not promise extermination or moral evil.",
+    "prowler": "Frightened territorial woodland animal. Rootbound reputation and /soothe already support peaceful passage. The kill quest protects the active grove while the later peaceful lesson complicates a blanket response.",
+    "shardling": "Old memorial-watch constructs, not resurrected villagers. A nameplate on a construct commemorates a person; freeing its watch does not kill that person again.",
+    "warden": "A sanctuary defense drawing light to sustain its obsolete retention routine. Dangerous, understandable, not the god of a whole people.",
+    "roadbandit": "Legacy internal ID only. Public name Misbound road sentinel; no bandit faction invented in prose.",
+    "rootprowler": "Root-tangled wildlife at the memory hollow. Current peaceful-reputation mechanics apply only to the existing original prowler type; do not promise /soothe works here.",
+    "quarrymite": "Shardback animal agitated by resonance; no spoken villain motive.",
+    "shorecrab": "Warm nesting stone attracts scavengers; the encounter protects a specific rescue path, not a crusade against coastal fauna.",
+    "ashconstruct": "Unquiet worker construct repeating an instruction; distinct from living Emberkin.",
+    "reedstalker": "Wildlife crowded by altered water paths. Resolve the keeper’s order, do not declare the wetland conquered."
+  },
+  "ending_contract": {
+    "resolved": [
+      "The immediate northern light drain is ended.",
+      "Six local shelter faults have identified causes and present-day custodians.",
+      "The dangerous site encounters are completed.",
+      "Food report and water report accompany the civic decision.",
+      "The Reach explicitly restores the right to depart; the player has a home by choice.",
+      "Ilan learns what Anja chose, Briar shares the burden, six representatives change one practice each."
+    ],
+    "open": [
+      "Who allowed the old clause into the capital replacement batch?",
+      "Where did the evacuees outside the records go?",
+      "What else can the wider witnesswork do, and who should authorize it?"
+    ],
+    "multiplayer_reality": "Quest progress and changed gossip are personal. Bosses respawn for other players; no shared-world permanent repair or global charter ceremony is implemented. Say “our crews can now isolate” and “your report is recorded,” never claim visible doors, terrain, NPC schedules or enemy spawns have permanently changed. The finale reading is gated to that character’s completed five_roads record.",
+    "onboarding": "No new XP, collectible power, inventory burden, mandatory lore-reading objective, or level-cap change. Existing saves and accepted quests remain valid. New offers of social_road follow the sap finding; five_roads also requires town_seedroad. Both existing quests were already in the intended full campaign XP budget."
+  },
+  "disclosure": {
+    "player_knows_by_north": "Healthy place outside relay, moving roots follow flickering lamps, a repeating protective order, three named caretakers, the northern threat stopped.",
+    "player_knows_by_finale": "Replacement shipment shares the old clause; six forms of evidence justify a limited local correction. Ordinary witnesses, not ancient bloodlines, authorize it.",
+    "author_only": "Exact authority behind the capital batch is intentionally undecided. Do not put this file, author hypotheses, future rewards, or the full thread registry in the reader UI.",
+    "sources": "Field documents are authored by named people and may be incomplete or self-serving. Distinguish a character’s inference from a measured fact; never use an unreliable source as an excuse for broken objective geography."
+  },
+  "open_threads": [
+    {
+      "id": "capital-seal",
+      "future_region": "Alderhaven",
+      "seed_readable": "dispatch",
+      "question": "Who reused the Retention Office seal after that office was renamed?",
+      "future_payoff": "Compare the physical seal with staffed capital records; no automatic proof of a villain.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "batch-seven",
+      "future_region": "Alderhaven",
+      "seed_readable": "dispatch",
+      "question": "Why was batch seven copied from the emergency archive?",
+      "future_payoff": "A clerk, an authorization chain, and a choice about public correction.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "renns-route",
+      "future_region": "Brinecoast",
+      "seed_readable": "courier",
+      "question": "Where did Renn Tal go after receiving treatment in Willowcross?",
+      "future_payoff": "Meet a living courier with her own reasons; do not make every absence a death.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "annet-family",
+      "future_region": "Alderhaven",
+      "seed_readable": "kiln-token",
+      "question": "Who kept Annet Vey’s private correction letter?",
+      "future_payoff": "Family and civic versions of responsibility disagree.",
+      "status": "developed in Alderhaven optional conversations; see alderhaven.json",
+      "continuation_sources": [
+        "alder-archivist/letter"
+      ]
+    },
+    {
+      "id": "unlisted-door",
+      "future_region": "Alderhaven",
+      "seed_readable": "charter",
+      "question": "Why is one gate absent from the original refuge plan?",
+      "future_payoff": "A neighborhood built by people omitted from a celebrated charter.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "blue-island",
+      "future_region": "Brinecoast",
+      "seed_readable": "tide-notes",
+      "question": "What happened to the island marked only in an older chart?",
+      "future_payoff": "Survey omission, seasonal passage, or political renaming; preserve multiple possibilities.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "passenger-senn",
+      "future_region": "Brinecoast",
+      "seed_readable": "tide-notes",
+      "question": "Why did Senn ask to leave a rescue crew before reaching home?",
+      "future_payoff": "A voluntary departure and a new community, not a traitor by default.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "rescue-bell",
+      "future_region": "Brinecoast",
+      "seed_readable": "tide-notes",
+      "question": "Who answers a rescue bell on a deserted headland?",
+      "future_payoff": "A new local mystery with a complete answer in its own zone.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "borrowed-seed",
+      "future_region": "Rootsong homelands",
+      "seed_readable": "root-transcript",
+      "question": "Who requested the separate seed and what did they claim to preserve?",
+      "future_payoff": "Consent around an archive, not a stolen soul reveal by default.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "unvoiced-child",
+      "future_region": "Rootsong homelands",
+      "seed_readable": "root-transcript",
+      "question": "Who spoke the missing end of the child’s sentence?",
+      "future_payoff": "A surviving account changes the meaning without undoing the local repair.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "miras-school",
+      "future_region": "Rootsong homelands",
+      "seed_readable": "lysa-lesson",
+      "question": "Can memory keepers teach a tradition without demanding ancestry?",
+      "future_payoff": "A school and internal disagreement among living Sylvren.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "winter-orchard",
+      "future_region": "Rootsong homelands",
+      "seed_readable": "orchard-notes",
+      "question": "Why does an orchard cutting flower after frost?",
+      "future_payoff": "A regional ecology story, not a starter rare-item promise.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "bell-interval",
+      "future_region": "Frostfell",
+      "seed_readable": "stone-rubbing",
+      "question": "Where is the master bell used to time the shelters?",
+      "future_payoff": "A working foundry with its own labor and material pressures.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "broken-signatory",
+      "future_region": "Frostfell",
+      "seed_readable": "stone-rubbing",
+      "question": "Why is a carver’s witness mark struck through but still dated?",
+      "future_payoff": "An honest amendment or coercion, judged through new evidence.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "bren-apprentice",
+      "future_region": "Frostfell",
+      "seed_readable": "stone-rubbing",
+      "question": "Why did Bren’s correction-carving application return unsigned?",
+      "future_payoff": "A personal apprenticeship story with more than one defensible teacher.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "clock-at-dawn",
+      "future_region": "Alderhaven",
+      "seed_readable": "inn-book",
+      "question": "Why did an old capital clock stop at the recorded evacuation hour?",
+      "future_payoff": "Compare accounts; the clock need not be a world-ending device.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "missing-fuel",
+      "future_region": "Emberwastes",
+      "seed_readable": "kiln-token",
+      "question": "Where did the paid-for evacuation fuel actually go?",
+      "future_payoff": "Follow receipts to a community that also needed heat.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "iri-names",
+      "future_region": "Emberwastes",
+      "seed_readable": "kiln-token",
+      "question": "Whose uncredited shift marks outnumber the named workers?",
+      "future_payoff": "Recover labor history and let Iri decide what to display.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "cool-fire",
+      "future_region": "Emberwastes",
+      "seed_readable": "kiln-token",
+      "question": "What craft produces a readable token without the original kiln?",
+      "future_payoff": "New trade knowledge with limits and competing custodians.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "last-shift-song",
+      "future_region": "Emberwastes",
+      "seed_readable": "sanctuary-names",
+      "question": "Where did the caretakers learn the same work refrain as the kiln crew?",
+      "future_payoff": "Shared travel history, not proof that every culture has one source.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "marsh-household",
+      "future_region": "Gloamfen",
+      "seed_readable": "water-survey",
+      "question": "Who lived downstream before the capital map was made?",
+      "future_payoff": "Meet residents with standing claims and unrelated everyday wants.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "provisional-annex",
+      "future_region": "Alderhaven",
+      "seed_readable": "charter",
+      "question": "Why was the water annex never ratified?",
+      "future_payoff": "A civic conflict with costs to both city and marsh.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "hollis-channel",
+      "future_region": "Gloamfen",
+      "seed_readable": "water-survey",
+      "question": "Where does the unmapped side channel lead?",
+      "future_payoff": "A traversable route when that zone exists, no invisible starter exit now.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "reed-migration",
+      "future_region": "Gloamfen",
+      "seed_readable": "water-survey",
+      "question": "Why do stalkers return to a dry bank each season?",
+      "future_payoff": "A creature migration story that can be resolved without a humanoid villain.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "sera-sister",
+      "future_region": "Alderhaven",
+      "seed_readable": "hearth-note",
+      "question": "Who taught Sera the open-hand evacuation gesture?",
+      "future_payoff": "Reconnect with a living former relief worker whose life continued.",
+      "status": "developed in Alderhaven optional conversations; see alderhaven.json",
+      "continuation_sources": [
+        "alder-relief/sera"
+      ]
+    },
+    {
+      "id": "tavis-debt",
+      "future_region": "Sunsteppe",
+      "seed_readable": "camp-ledger",
+      "question": "Who canceled Tavi’s first caravan debt without explanation?",
+      "future_payoff": "A merchant’s generosity and the obligation to pass it on.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "elowens-vote",
+      "future_region": "Alderhaven",
+      "seed_readable": "sanctuary-names",
+      "question": "Why did Elowen vote to seal the sanctuary rather than remove its order?",
+      "future_payoff": "A difficult past decision assessed with the evidence then available.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "anja-escape",
+      "future_region": "Alderhaven",
+      "seed_readable": "sanctuary-names",
+      "question": "Where did the people Anja guided through the side passage settle?",
+      "future_payoff": "A living neighborhood that remembers a different hero.",
+      "status": "developed in Alderhaven optional conversations; see alderhaven.json",
+      "continuation_sources": [
+        "alder-lowdoor/anja"
+      ]
+    },
+    {
+      "id": "spring-source",
+      "future_region": "Northern uplands",
+      "seed_readable": "pool-observation",
+      "question": "What feeds the quiet pool’s untouched spring?",
+      "future_payoff": "A water-source journey; keep the pool’s local ecological answer valid.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "unbuilt-bridge",
+      "future_region": "Sunsteppe",
+      "seed_readable": "inn-book",
+      "question": "Why do road songs name a bridge that was never built?",
+      "future_payoff": "An unrealized cooperative project, possibly worth building later.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "mentor-argument",
+      "future_region": "Alderhaven",
+      "seed_readable": "charter",
+      "question": "How should protectors refuse an unlawful shelter order?",
+      "future_payoff": "Class-specific ethical quests sharing the same civic world.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "return-hearths",
+      "future_region": "Alderhaven",
+      "seed_readable": "hearth-note",
+      "question": "Who may maintain public return hearths in a crowded city?",
+      "future_payoff": "Multiple voluntary waypoints with civic access questions, not forced rebinding.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "second-correction",
+      "future_region": "Unknown border",
+      "seed_readable": "release-amendment",
+      "question": "Who sent a prior correction marked RECEIVED but never copied onward?",
+      "future_payoff": "Evidence of attempted repair; preserve the local release as a real success.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "outside-guest-list",
+      "future_region": "All future zones",
+      "seed_readable": "charter",
+      "question": "Who counts as a neighbor when no road register names them?",
+      "future_payoff": "Recurring question answered differently by new people, not a single final moral speech.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "moss-chart",
+      "future_region": "Brinecoast",
+      "seed_readable": "inn-book",
+      "question": "Why does Moss recognize a chart convention no current crew teaches?",
+      "future_payoff": "A personal voyage and a teacher still worth finding.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    },
+    {
+      "id": "renn-recipient",
+      "future_region": "Alderhaven",
+      "seed_readable": "courier",
+      "question": "Who was Renn carrying the unaddressed carbon copy for?",
+      "future_payoff": "Discover a recipient’s work; avoid rewriting Renn as an omniscient spy.",
+      "status": "seeded; future resolution deliberately uncommitted"
+    }
+  ],
+  "background_story_file": "cinderwood-background.txt",
+  "capital_continuation": "alderhaven.json"
+}

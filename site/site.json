@@ -1,0 +1,185 @@
+{
+  "title": "Emberwild",
+  "eyebrow": "A KithCore example world",
+  "tagline": "Every road begins with a hearth.",
+  "description": "Emberwild is a larger example world for the KithCore multiplayer RPG engine, with a mostly complete level 1\u201310 starting zone and Alderhaven, plus static geography for future content. Requires KithCore; choose the combined starter or install the world-only pack in a compatible engine.",
+  "accent": "#e7c08b",
+  "features": [
+    {
+      "title": "The Cinderwood Reach",
+      "text": "Follow a starting campaign from Hearthstead through woodland trails, the old sanctuary and outlying settlements. Explore the neighboring capital of Alderhaven."
+    },
+    {
+      "title": "An entire library to build with",
+      "text": "Every generator stays available, including unused art. Ten equipment level bands have distinct shapes for cloth, leather, mail, plate and eleven weapon/offhand families. Apply regional palettes as additional drop variations."
+    },
+    {
+      "title": "A game package of its own",
+      "text": "World definitions, race art, scenery and story live separately from the engine. Use the world-only release or a combined starter with a tested engine version."
+    },
+    {
+      "title": "A continent for future stories",
+      "text": "Four interconnected leveling routes, five capitals and ten frontier landscapes. New regions have empty wayhouses, city architecture and clear encounter sites; later quests and populations remain to be authored."
+    },
+    {
+      "title": "Discover the roads, then fly",
+      "text": "Visit flight stones on foot to unlock them. Fly between connected discovered stations or use portals between discovered capitals. Exploration records persist with your character."
+    },
+    {
+      "title": "Four independent disciplines",
+      "text": "Dawnwardens fight in melee, Pathfinders hunt with bows, Arcanists control and damage from range, and Stormcallers heal and protect allies while retaining solo lightning attacks."
+    },
+    {
+      "title": "Ecology before encounters",
+      "text": "208 creature designs and 32 body shapes support 52 zone rosters. Each roster has a backstory and five creature types, with a population plan of twenty. New regions remain unpopulated until encounters are authored."
+    },
+    {
+      "title": "Explore an organized world",
+      "text": "Five top-level atlas regions use adjoining geographic boundaries and short terrain-led maps. An opt-in local developer entrance provides an explorer with every travel destination unlocked."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "hearthstead",
+      "title": "The first hearth",
+      "description": "The starting camp in Cinderwood: shelter, familiar faces and the first road north.",
+      "x": 0,
+      "z": 25,
+      "distance": 31,
+      "pitch": 0.48,
+      "yaw": -0.65
+    },
+    {
+      "id": "city",
+      "title": "Fourwinds Exchange",
+      "description": "Alderhaven's market ward, built from the same source-defined scenery and shared world systems.",
+      "x": 618,
+      "z": 145,
+      "distance": 62,
+      "pitch": 0.55,
+      "yaw": -0.6
+    },
+    {
+      "id": "gardens",
+      "title": "Lantern Gardens",
+      "description": "The capital's gardens and guest pavilions show how the larger demo extends beyond the starting zone.",
+      "x": 814,
+      "z": 303,
+      "distance": 62,
+      "pitch": 0.5,
+      "yaw": 0.7
+    },
+    {
+      "id": "sylvarin",
+      "title": "Sylvarin, the Listening Crown",
+      "description": "Radial garden wards, living-wood halls and a vast open crown pavilion. Unpopulated static geography for future content.",
+      "x": 3798,
+      "z": -2731,
+      "distance": 150,
+      "pitch": 0.6,
+      "yaw": 0.65
+    },
+    {
+      "id": "nereides",
+      "title": "Nereides, the Returning Harbor",
+      "description": "Crescent harbor wards, shell-domed halls and an open rescue quay. Unpopulated static geography for future content.",
+      "x": 6144,
+      "z": 8237,
+      "distance": 150,
+      "pitch": 0.6,
+      "yaw": 0.65
+    },
+    {
+      "id": "worldanvil",
+      "title": "The World Anvil",
+      "description": "Basalt organ pipes around a huge terraced impact forge. Unpopulated static geography for future content.",
+      "x": 11614,
+      "z": -7254,
+      "distance": 145,
+      "pitch": 0.6,
+      "yaw": 0.65
+    },
+    {
+      "id": "brokenorrery",
+      "title": "The Broken Orrery",
+      "description": "A field of nested impact basins beneath a monumental broken astronomical ring. Unpopulated static geography for future content.",
+      "x": 9452,
+      "z": 9925,
+      "distance": 145,
+      "pitch": 0.6,
+      "yaw": 0.65
+    }
+  ],
+  "flyby": {
+    "seconds": 14,
+    "points": [
+      {
+        "camera": [
+          0,
+          68,
+          42
+        ],
+        "look": [
+          0,
+          22
+        ]
+      },
+      {
+        "camera": [
+          80,
+          22,
+          42
+        ],
+        "look": [
+          40,
+          5
+        ]
+      },
+      {
+        "camera": [
+          390,
+          190,
+          70
+        ],
+        "look": [
+          455,
+          145
+        ]
+      },
+      {
+        "camera": [
+          660,
+          190,
+          78
+        ],
+        "look": [
+          618,
+          145
+        ]
+      },
+      {
+        "camera": [
+          810,
+          360,
+          72
+        ],
+        "look": [
+          814,
+          303
+        ]
+      },
+      {
+        "camera": [
+          350,
+          240,
+          80
+        ],
+        "look": [
+          200,
+          130
+        ]
+      }
+    ]
+  },
+  "repository": "jspjut/emberwild"
+}

@@ -1,0 +1,37 @@
+{
+  "id": "hazelwash-woolback-example-001",
+  "worldId": "emberwild",
+  "items": {
+    "hazelwash_field_axe": {
+      "template": "continental_field_axe",
+      "values": {
+        "name": "Hazelwash woodcutter",
+        "minLevel": 10,
+        "power": 8,
+        "quality": "uncommon"
+      }
+    }
+  },
+  "enemyTypes": {
+    "hazelwash_woolback": {
+      "template": "tundra_mammoth",
+      "values": {
+        "name": "Wandering woolback",
+        "level": 10,
+        "hp": 180,
+        "damage": 10,
+        "xp": 30,
+        "loot": "hazelwash_field_axe",
+        "lootChance": 0.1
+      }
+    }
+  },
+  "spawns": [
+    {
+      "id": "hazelwash-woolback-01",
+      "type": "hazelwash_woolback",
+      "x": 308,
+      "z": -1165
+    }
+  ]
+}

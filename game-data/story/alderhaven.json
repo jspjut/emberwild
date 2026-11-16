@@ -1,0 +1,37 @@
+{
+  "id": "alderhaven-open-hand",
+  "revision": 1,
+  "kind": "human capital background; author data, not a player lore dump",
+  "foundation": "Alderhaven began as three river landings and a refuge road. Its assembly adopted the Open Hand Compact after the Long Ember Winter, then grew a city around the work of maintaining it. The capital is a human civic home with long-standing neighbors from all five peoples, not a racial enclave that excludes visitors.",
+  "history": [
+    {"when": "92 years ago", "event": "The river landings receive displaced families. The Lowdoor settlement and early relief kitchens precede the capital's complete survey."},
+    {"when": "87 years ago", "event": "The Open Hand Compact is copied into the first public archive. The Assembly promises common shelter and a right to depart. A provisional water annex postpones downstream testimony."},
+    {"when": "41 years ago", "event": "Alderhaven receives evacuees from the Night of Closed Doors. Anja Wren's escape route brings families who settle in Lowdoor. Annet Vey's emergency order is celebrated by some survivors and disputed by others."},
+    {"when": "40 years ago", "event": "The memorial bell is cast but never publicly struck. No agreed list can distinguish the missing, the departed, and those who were never counted."},
+    {"when": "19 years ago", "event": "Annet dies. Her descendants keep a correction letter whose different copies do not agree in every detail. Ysra later becomes a keeper of the archive, without inheriting a verdict about her grandmother."},
+    {"when": "18 days before the Reach chapter", "event": "Replacement witness tiles leave the city bearing an obsolete Retention Office seal. The responsible copying chain and its intent remain unresolved."},
+    {"when": "After the Reach amendment", "event": "A completed adventurer can present Tamsin's testimony to First Speaker Aveline. It enters a city account as evidence of a successful local correction, without turning the visit into a new mandatory quest."}
+  ],
+  "districts": {
+    "welcome": "The Open Gate contains the Unlatched Door and a relief house. An imposing open arch replaces the fantasy of a perfectly safe closed city. Maelin stayed here when her sister Sera went north.",
+    "market": "Fourwinds Exchange combines trade, the common bank and a return hearth. Practical services bring travelers together before a grander story asks for their attention.",
+    "civic": "Concord Heights houses the Hall of the Open Hand. The height expresses civic ambition; a ground-level open entrance and optional questions prevent it from representing unquestionable authority.",
+    "archive": "The Unfinished Archive preserves originals beside corrections. Its name describes an ongoing public responsibility, not a promise that every secret is about to be solved.",
+    "forge": "Bellfounders' Close holds craft yards and the unstruck bell. The foundry has ordinary work as well as a memorial argument; its people are not merely custodians of a mystery.",
+    "gardens": "Lantern Gardens has five open guest pavilions and a voluntarily chosen hearth. Different traditions share space while remaining distinct.",
+    "homes": "Lowdoor Ward is a living neighborhood with a chosen representative. It must not become only a tragic evacuation exhibit. Tessa can discuss street widths and testimony as readily as Anja's courage.",
+    "quay": "The Willow Quays connect river rescue and trade. The water continues beyond the present city; its farther destinations remain unplaced future content."
+  },
+  "principals": {
+    "alder-speaker": {"name": "Aveline Rook", "want": "Make the Assembly answerable without claiming that one speech repairs its records.", "limits": "Does not know the intent behind batch seven. Acknowledges a completed Reach report; does not appoint the player ruler or investigator by default.", "appearance": "Blue-green civic plate, gold trim, silver braid, ceremonial shoulders and cape."},
+    "alder-archivist": {"name": "Ysra Vey", "want": "Keep family testimony and public responsibility legible together.", "limits": "Annet's granddaughter; the letter exists, but copying disputes and the dispatch chain remain open.", "appearance": "Violet archival robes, pale trim, dark bob and layered ceremonial shoulders."},
+    "alder-bellfounder": {"name": "Corven Bell", "want": "Keep the bell ready until the people can choose an honest occasion to sound it.", "limits": "Demonstrates a quiet witness gesture; grants no ability, item or repeat reputation.", "appearance": "Bronze work mail, copper beard, broad build and foundry regalia."},
+    "alder-lowdoor": {"name": "Tessa Wren", "want": "Let neighbors speak for themselves instead of serving as evidence in somebody else's hero story.", "limits": "Her father escaped through Anja's passage. This develops Ilan's family thread without pretending Tessa witnessed the old event personally.", "appearance": "Green leather, practical cloak and tied-back chestnut hair."},
+    "alder-relief": {"name": "Maelin of the Open Hand", "want": "Care for the next arrival without making care a test of worth.", "limits": "Sera's living sister, with a continuing life of her own. Neither sister's choice to stay or leave invalidates the other.", "appearance": "Ivory relief robes, sea-green trim and ash hair."}
+  },
+  "continuity": {
+    "resolved_or_developed": ["Sera's sister is alive and named Maelin.", "Some of Anja's evacuees settled in Lowdoor; their descendants can speak for themselves.", "The human capital has a current Assembly, archive, relief house and memorial foundry.", "Annet's correction letter exists; its meaning is still disputed."],
+    "reserved": ["Who chose the obsolete seal and copied emergency pattern?", "Why was the prior correction received but never copied onward?", "What do the omitted census and downstream witnesses say?", "What occasion could honestly close the memorial bell's account?"],
+    "game_scope": "Optional, server-validated conversations and reactions only. No capital quests, public ceremony, new player emote, global repair phase or new power reward is implied. Ceremonial gear is NPC-only and absent from rewards and shops."
+  }
+}

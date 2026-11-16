@@ -1,0 +1,170 @@
+EMBERWILD STORY DEVELOPMENT METHOD
+Revision 1 · 4 November 2026
+
+Start here
+
+The author background is cinderwood-reach.json. It includes the complete prose
+background, fixed history, cast, site arcs, disclosure boundaries, ending contract,
+and 36 seeded future threads. It is repository game data, not a player document.
+shared/story-content.js contains public quest scenes and character responses.
+shared/readables.js contains public, attributed documents and their world positions.
+The server never serves game-data/story through a public static route.
+
+This method is a recommendation for future chapters. It describes a repeatable
+writing process, not new game mechanics or a requirement to use an LLM.
+
+1. Choose a place-sized problem and a real ending
+
+Write one sentence each for: what the player first notices, what is actually
+causing it, who wants incompatible things, what the player can change here, and
+what will be true when this chapter is finished. Decide the ending before seeding
+continuations. At least one important local danger, one relationship, and one
+practical need should resolve inside the zone. Do not undo those resolutions in
+the next zone merely to make its villain seem important.
+
+The Reach's observable problem is displaced creatures and failing shelters. Its
+cause is a retained emergency order spreading through replacement parts. Its
+ending is a limited local release supported by six witnesses, food and water.
+Alderhaven's paperwork is a next question, not a hostage holding that ending open.
+
+2. Separate facts, accounts, and unchosen possibilities
+
+Maintain three explicit categories. Author truth is fixed continuity. A witness
+account belongs to a particular person who saw a limited part. Reserved questions
+have no committed answer yet. A future writer may choose among reserved answers;
+they may not quietly replace a fixed fact or turn a witness's uncertainty into
+omniscience. If a fact must change, record why, affected quests/documents, and the
+in-world explanation. Keep dates relative to a named event as well as to the player
+chapter so a longer development schedule does not make everyone age accidentally.
+
+The exact intent behind batch seven remains reserved. The fact that Renn survived
+the northern road and reached Willowcross does not. Do not later make her a corpse
+at that roadstone without explicitly reconciling the established evidence.
+
+3. Give every important person a want and an inconvenient habit
+
+Record want, blind spot, relationship, voice, evidence they can actually know,
+and a change visible by the end. Give minor residents ordinary work and opinions.
+A playable race is not a single mind or a moral alignment. Show at least two people
+who disagree within a tradition. Introduce culture through a task or relationship
+before asking a player to remember terminology. Keep room for class differences
+without splitting the shared facts into four incompatible histories.
+
+For quest writing, read the dialogue without the speaker's name. If it could be
+handed to any representative unchanged, give it a material observation, personal
+stake, or limitation of knowledge specific to that person.
+
+4. Outline an evidence route before writing errands
+
+Use: immediate need -> observed contrast -> provisional explanation -> complicating
+account -> action -> returned evidence -> changed relationship. Put the route on
+the actual world map. Make the first hour's explanations small. Offer one to three
+main tasks at a hub; a breadcrumb should explain why the next person can help.
+Use later callbacks to ordinary tutorial actions: a greeting can prepare an idea
+about consent without starting with a lecture about the charter.
+
+For each beat, fill these fields:
+  Quest IDs and prerequisites
+  Starting question / what the player currently believes
+  Observed thing and actual coordinates / creature / prop
+  Speaker and source of their knowledge
+  Player action supported by existing mechanics
+  New information / what remains uncertain
+  Local payoff and changed response
+  Optional reading IDs and future-thread IDs
+  XP, rewards, travel and class implications
+
+5. Match prose to mechanics and geography
+
+If a quest says pool, show water. If it says behind the inn, verify orientation
+and the entrance. A transcription is not a physical memory seed. A memorial name
+on a construct does not mean the construct is a dead citizen. A kill objective
+must not claim the player negotiated a truce, saved every animal, or permanently
+removed shared respawning enemies. Separate a personal story conclusion from a
+shared-world transformation until the game implements the latter.
+
+Preserve readable clues outside combat choke points. Validate a walkable approach,
+interaction range, collision/line of sight, hover, keyboard access, and readability
+at desktop and smaller window sizes. Author coordinates through shared layout
+helpers; do not scatter untransformed legacy positions into a later world revision.
+
+6. Give repeated quest structures different dramatic jobs
+
+A reusable intro/collect/fight/entrance/boss/return structure is useful. It cannot
+be the story by itself. Decide what the collected object proves, why these enemies
+are here, what the entrance reveals, what defeating the keeper enables, and which
+belief changes in the return conversation. Each hub needs its own local resolution.
+
+Not every zone needs the Reach's failing-machine plot. A future chapter might be
+a disputed festival, migration, inheritance, expedition, or rebuilding project.
+Keep the evidence-and-payoff method; vary the type of conflict and kinds of action.
+Where a new choice, rescue, escort or diplomatic solution matters, implement and
+test that mechanic before writing text that promises it.
+
+7. Put detail in layers, with authors and limits
+
+Quest offers carry motivation and clear action, usually in 45–90 words. Hand-ins
+carry a discovery or consequence, usually in 25–70. These are targets, not hard
+limits. Readers should get more texture, another viewpoint, or a useful question,
+not the missing half of an otherwise unintelligible required story. Aim for short
+pages of 70–150 words. Identify a writer or compiler and why this text exists in
+this location. A shop invoice, corrected tally, and unfinished letter should not
+all sound like the same omniscient history book.
+
+Use a small memorable vocabulary per act. Introduce an unusual term in the same
+sentence as its meaning. Treat documents as testimony, not automatic canon dumps.
+Keep the internal story bible, future plot plans, and unearned ending pages outside
+the public content bundle or gated from normal play as appropriate.
+
+8. Seed continuations as evidence, not advertisements
+
+Give a hook an ID, current source, question, likely future region, possible payoff,
+continuity constraints, and status. Make the present clue concrete: a mismatched
+seal, a voluntary departure knot, an uncredited shift, an absent map label. The
+future can remain undecided. Do not promise rewards, a specific future feature,
+or imminent zone access merely to make a mystery enticing.
+
+Distinguish personal, ecological, civic, craft, historical and expedition threads.
+Some should resolve gently, some cross zones, and some remain texture. A later
+chapter should pick a manageable handful, show how they changed since first seen,
+and pay at least one off. Update the registry to adopted, developed, resolved or
+retired; name the new quest/source that carries it. Keep other hooks quiet rather
+than forcing every local object to belong to one continental conspiracy.
+
+9. Budget progression independently of exposition
+
+First preserve known playable IDs, rewards, class restrictions, objective types
+and coordinates. Change their prose and gates intentionally. Audit the dependency
+graph for cycles and unavailable level gates. Run all class campaigns after a
+story pass. A document should not grant repeat XP or fill a bag merely because it
+is interesting. New reward-bearing quests need an XP-budget review, not an assumed
+exception for story content. Retain the current common-to-uncommon starter gear
+pace and roughly level-10 full-zone finish.
+
+For save compatibility, preserve accepted/completed quest records. Stronger offer
+gates may apply to new acceptance; never silently delete a player's accepted quest.
+Document any changed gate, including the Reach finale's existing harvest report and the clean-amber
+breadcrumb following the actual sap finding.
+
+10. Review the experience, not just the prose
+
+Review in four passes:
+  Continuity: dates, identities, source knowledge, cause/effect, lore boundaries.
+  Play: routes, enemies, real objective credit, each class, old saves, multiplayer.
+  Delivery: visible books, cursor, click/F, pages, Escape, movement transparency,
+            no duplicate rewards, distant or wall-blocked reads rejected.
+  Emotion: can a player explain what changed for one named person at each hub,
+           what they personally accomplished, and why they might take the next road?
+
+Automated campaigns prove reachability and reward totals. Their teleporting between
+objectives cannot establish walking pace, emotional clarity or human interest.
+After browser verification, a human playthrough should read only required dialogue
+first. A second pass can follow optional documents and note which questions arise
+naturally. Revise repeated explanations and unsupported promises before adding more
+proper nouns or another distant villain.
+
+Done means a complete local arc, valid mechanical actions, a clear consequence,
+working readable delivery, consistent player/author knowledge, tested progression,
+and a small set of next questions the player has a reason to care about. The Reach
+keeps 36 potential threads in reserve; a normal next zone should select a few, not
+try to advance all 36 at once.

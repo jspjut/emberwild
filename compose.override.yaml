@@ -1,0 +1,6 @@
+services:
+  game:
+    environment:
+      WORLD: /world
+    volumes:
+      - ./worlds/emberwild:/world:ro
